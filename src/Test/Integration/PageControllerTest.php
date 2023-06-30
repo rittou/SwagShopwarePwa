@@ -12,6 +12,8 @@ use Shopware\Core\Framework\Test\TestCaseBase\IntegrationTestBehaviour;
 use Shopware\Core\Framework\Test\TestCaseBase\SalesChannelApiTestBehaviour;
 use Shopware\Core\Framework\Test\TestDataCollection;
 use Shopware\Core\Framework\Uuid\Uuid;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use Symfony\Component\HttpFoundation\Response;
 
 class PageControllerTest extends TestCase
 {
@@ -20,49 +22,25 @@ class PageControllerTest extends TestCase
 
     const ENDPOINT_PAGE = '/store-api/pwa/page';
 
-    /**
-     * @var \Symfony\Bundle\FrameworkBundle\KernelBrowser
-     */
-    private $browser;
+    private KernelBrowser $browser;
 
-    /**
-     * @var TestDataCollection
-     */
-    private $ids;
+    private TestDataCollection $ids;
 
-    /**
-     * @var EntityRepository
-     */
-    private $seoUrlRepository;
+    private EntityRepository $seoUrlRepository;
 
-    /**
-     * @var EntityRepository
-     */
-    private $categoryRepository;
+    private EntityRepository $categoryRepository;
 
-    /**
-     * @var EntityRepository
-     */
-    private $cmsPageRepository;
+    private EntityRepository $cmsPageRepository;
 
-    /**
-     * @var EntityRepository
-     */
-    private $salesChannelDomainRepository;
+    private EntityRepository $salesChannelDomainRepository;
 
-    /**
-     * @var EntityRepository
-     */
-    private $salesChannelRepository;
+    private EntityRepository $salesChannelRepository;
 
-    /**
-     * @var EntityRepository
-     */
-    private $landingPageRepository;
+    private EntityRepository $landingPageRepository;
 
     public function setUp(): void
     {
-        $this->ids = new TestDataCollection(Context::createDefaultContext());
+        $this->ids = new TestDataCollection();
 
         $this->browser = $this->createCustomSalesChannelBrowser([
             'id' => $this->ids->create('salesChannelId'),
@@ -81,13 +59,6 @@ class PageControllerTest extends TestCase
         $this->ids->create('childCategoryId');
         $this->ids->create('child2CategoryId');
         $this->ids->create('child3CategoryId');
-
-        $this->seoUrlRepository = $this->getContainer()->get('seo_url.repository');
-        $this->categoryRepository = $this->getContainer()->get('category.repository');
-        $this->cmsPageRepository = $this->getContainer()->get('cms_page.repository');
-        $this->salesChannelDomainRepository = $this->getContainer()->get('sales_channel_domain.repository');
-        $this->salesChannelRepository = $this->getContainer()->get('sales_channel.repository');
-        $this->landingPageRepository = $this->getContainer()->get('landing_page.repository');
     }
 
     /**
@@ -604,7 +575,8 @@ class PageControllerTest extends TestCase
 
     private function createSalesChannelDomain()
     {
-        $this->salesChannelDomainRepository->create([
+        $salesChannelDomainRepository = $this->getContainer()->get('sales_channel_domain.repository');
+        $salesChannelDomainRepository->create([
             [
                 'url' => '/',
                 'salesChannelId' => $this->ids->get('salesChannelId'),
@@ -689,7 +661,8 @@ class PageControllerTest extends TestCase
 
     private function createSeoUrls()
     {
-        $this->seoUrlRepository->create([
+        $seoUrlRepository = $this->getContainer()->get('seo_url.repository');
+        $seoUrlRepository->create([
             [
                 'salesChannelId' => $this->ids->get('salesChannelId'),
                 'languageId' => Defaults::LANGUAGE_SYSTEM,
@@ -785,7 +758,8 @@ class PageControllerTest extends TestCase
 
     private function createCategories(bool $withCmsPage = true)
     {
-        $this->categoryRepository->create([
+        $categoryRepository = $this->getContainer()->get('category.repository');
+        $categoryRepository->create([
             [
                 'id' => $this->ids->get('categoryId'),
                 'salesChannelId' => $this->ids->get('salesChannelId'),
@@ -815,7 +789,8 @@ class PageControllerTest extends TestCase
             ]
         ], Context::createDefaultContext());
 
-        $this->salesChannelRepository->upsert([
+        $salesChannelRepository = $this->getContainer()->get('sales_channel.repository');
+        $salesChannelRepository->upsert([
             [
                 'id' => $this->ids->get('salesChannelId'),
                 'navigationCategoryId' => $this->ids->get('categoryId')
@@ -824,7 +799,9 @@ class PageControllerTest extends TestCase
     }
 
     private function createLandingPage(bool $withCmsPage = true) {
-        $this->landingPageRepository->create([
+        $landingPageRepository = $this->getContainer()->get('landing_page.repository');
+
+        $landingPageRepository->create([
             [
                 'id' => $this->ids->get('landingPageId'),
                 'salesChannels' => [
@@ -886,6 +863,7 @@ class PageControllerTest extends TestCase
             ],
         ];
 
-        $this->cmsPageRepository->upsert([$landingPage, $productPage], Context::createDefaultContext());
+        $cmsPageRepository = $this->getContainer()->get('cms_page.repository');
+        $cmsPageRepository->upsert([$landingPage, $productPage], Context::createDefaultContext());
     }
 }

@@ -31,19 +31,12 @@ class PageController extends AbstractController
     const LANDING_PAGE_ROUTE = 'frontend.landing.page';
 
     /**
-     * @var PageLoaderContextBuilderInterface
+     * @param iterable<PageLoaderInterface> $pageLoaders
      */
-    private $pageLoaderContextBuilder;
-
-    /**
-     * @var PageLoaderInterface[]
-     */
-    private $pageLoaders;
-
-    public function __construct(PageLoaderContextBuilderInterface $pageLoaderContextBuilder, iterable $pageLoaders)
-    {
-        $this->pageLoaderContextBuilder = $pageLoaderContextBuilder;
-
+    public function __construct(
+        private PageLoaderContextBuilderInterface $pageLoaderContextBuilder,
+        private iterable $pageLoaders
+    ) {
         /** @var PageLoaderInterface $pageLoader */
         foreach ($pageLoaders as $pageLoader) {
             $this->pageLoaders[$pageLoader->getResourceType()] = $pageLoader;

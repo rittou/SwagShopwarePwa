@@ -15,30 +15,18 @@ abstract class AbstractPageResult extends Struct implements \JsonSerializable
 {
     use JsonSerializableTrait;
 
-    /**
-     * @var string
-     */
-    protected $resourceType;
+    protected string $resourceType;
+
+    protected string $resourceIdentifier;
+
+    protected string $canonicalPathInfo;
+
+    protected ?CmsPageEntity $cmsPage;
 
     /**
-     * @var string
+     * @var array<mixed>|null
      */
-    protected $resourceIdentifier;
-
-    /**
-     * @var string
-     */
-    protected $canonicalPathInfo;
-
-    /**
-     * @var CmsPageEntity|null
-     */
-    protected $cmsPage;
-
-    /**
-     * @var array
-     */
-    protected $breadcrumb;
+    protected ?array $breadcrumb;
 
     /**
      * @return string
@@ -79,13 +67,16 @@ abstract class AbstractPageResult extends Struct implements \JsonSerializable
     }
 
     /**
-     * @return array
+     * @return array<mixed>|null
      */
     public function getBreadcrumb(): ?array
     {
         return $this->breadcrumb;
     }
 
+    /**
+     * @param array<mixed>|null $breadcrumb
+     */
     public function setBreadcrumb(?array $breadcrumb)
     {
         $this->breadcrumb = $breadcrumb;

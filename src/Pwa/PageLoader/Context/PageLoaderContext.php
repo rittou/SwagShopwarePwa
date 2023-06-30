@@ -8,20 +8,11 @@ use Symfony\Component\HttpFoundation\Request;
 
 class PageLoaderContext
 {
-    /**
-     * @var Request
-     */
-    private $request;
+    private Request $request;
 
-    /**
-     * @var SalesChannelContext
-     */
-    private $context;
-    
-    /**
-     * @var SalesChannelRouteEntity
-     */
-    private $route;
+    private SalesChannelContext $context;
+
+    private SalesChannelRouteEntity $route;
 
     public function getRequest(): Request
     {
@@ -32,7 +23,7 @@ class PageLoaderContext
     {
         $this->request = $request;
     }
-    
+
     public function getContext(): SalesChannelContext
     {
         return $this->context;
@@ -47,7 +38,7 @@ class PageLoaderContext
     {
         $this->route = $route;
     }
-    
+
     public function getRoute(): SalesChannelRouteEntity
     {
         return $this->route;

@@ -3,15 +3,11 @@
 namespace SwagShopwarePwa\Pwa\PageResult\Navigation;
 
 use Shopware\Core\Content\Category\CategoryEntity;
-use Shopware\Core\Content\Cms\CmsPageEntity;
 use SwagShopwarePwa\Pwa\PageResult\AbstractPageResult;
 
 class NavigationPageResult extends AbstractPageResult
 {
-    /**
-     * @var CategoryEntity|null
-     */
-    protected $category;
+    protected ?CategoryEntity $category;
 
     /**
      * @return CategoryEntity|null

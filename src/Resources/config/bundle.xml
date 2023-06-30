@@ -21,7 +21,6 @@
             </call>
             <argument id="SwagShopwarePwa\Pwa\Bundle\ConfigurationService" type="service"/>
             <argument id="SwagShopwarePwa\Pwa\Bundle\AssetService" type="service"/>
-            <argument type="service" id="assets.packages"/>
         </service>
 
 

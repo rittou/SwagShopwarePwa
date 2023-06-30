@@ -6,10 +6,9 @@ use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter
 
 class FormattingHelper
 {
-    public function convertToDashCase($name): string
+    public function convertToDashCase(string $name): string
     {
         $converter = new CamelCaseToSnakeCaseNameConverter();
-
         return str_replace('_', '-', $converter->normalize($name));
     }
 }

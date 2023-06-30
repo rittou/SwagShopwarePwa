@@ -19,43 +19,16 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class AssetService implements EventSubscriberInterface
 {
-    /**
-     * @var string
-     */
-    private $assetArtifactDirectory = 'pwa-bundles-assets';
+    private string $assetArtifactDirectory = 'pwa-bundles-assets';
 
-    /**
-     * @var string
-     */
-    private $resourcesDirectory = '/Resources/app/pwa';
+    private string $resourcesDirectory = '/Resources/app/pwa';
 
-    /**
-     * @var Kernel
-     */
-    private $kernel;
-
-    /**
-     * @var EntityRepository
-     */
-
-    private $pluginRepository;
-
-    /**
-     * @var FormattingHelper
-     */
-    private $helper;
-
-    /**
-     * @var FilesystemOperator
-     */
-    private $fileSystem;
-
-    public function __construct(Kernel $kernel, EntityRepository $pluginRepository, FormattingHelper $helper, FilesystemOperator $fileSystem)
-    {
-        $this->kernel = $kernel;
-        $this->pluginRepository = $pluginRepository;
-        $this->helper = $helper;
-        $this->fileSystem = $fileSystem;
+    public function __construct(
+        private Kernel $kernel,
+        private EntityRepository $pluginRepository,
+        private FormattingHelper $helper,
+        private FilesystemOperator $fileSystem
+    ) {
     }
 
     /**
@@ -73,10 +46,8 @@ class AssetService implements EventSubscriberInterface
     {
         // Create temporary directory
         $archivePath = $this->kernel->getCacheDir() . '/../../' . $this->assetArtifactDirectory . '.zip';
-
         // Look for assets
         list($bundles, $checksum) = $this->getBundles();
-
         // Zip directory
         $this->createAssetsArchive($archivePath, $bundles);
 
@@ -91,30 +62,28 @@ class AssetService implements EventSubscriberInterface
         foreach($bundles as $bundle)
         {
             $bundleAssetPath = $bundle['path'] . $this->resourcesDirectory;
-
-            if(!is_dir($bundleAssetPath))
-            {
+            if(!is_dir($bundleAssetPath)) {
                 continue;
             }
 
             /** @var SplFileInfo[] $files */
             $files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($bundleAssetPath));
-
-            foreach($files as $name => $file)
-            {
-
-                if(is_dir($name))
-                {
+            /**
+             * @var int|string $name
+             * @var SplFileInfo $file
+             */
+            foreach($files as $name => $file) {
+                if(is_dir($name)) {
                     continue;
                 }
 
-                $localPath = $this->helper->convertToDashCase($bundle['name']) . '/' . substr($file->getRealPath(), strlen($bundleAssetPath) + 1);
+                $fileRealPath = $file->getRealPath() ?? '';
+                $localPath = $this->helper->convertToDashCase($bundle['name']) . '/' . substr($fileRealPath, strlen($bundleAssetPath) + 1);
                 $zip->addFile($file->getRealPath(), $localPath);
             }
         }
 
-        if($zip->count() <= 0)
-        {
+        if ($zip->count() <= 0) {
             $zip->addFromString('_placeholder_', '');
         }
 
@@ -137,8 +106,7 @@ class AssetService implements EventSubscriberInterface
 
         $kernelBundles = $this->kernel->getBundles();
         $bundles = [];
-        foreach ($kernelBundles as $kernelBundle)
-        {
+        foreach ($kernelBundles as $kernelBundle) {
             if(!in_array($kernelBundle->getName(), $pluginNames)) {
                 continue;
             }

@@ -23,42 +23,17 @@ class ProductPageLoader implements PageLoaderInterface
 {
     private const RESOURCE_TYPE = 'frontend.detail.page';
 
-    /**
-     * @var AbstractProductDetailRoute
-     */
-    private $productRoute;
-
-    /**
-     * @var ProductPageResultHydrator
-     */
-    private $resultHydrator;
-
-    /**
-     * @var RequestCriteriaBuilder
-     */
-    private $requestCriteriaBuilder;
-
-    /**
-     * @var SalesChannelProductDefinition
-     */
-    private $productDefinition;
-
     public function getResourceType(): string
     {
         return self::RESOURCE_TYPE;
     }
 
     public function __construct(
-        AbstractProductDetailRoute $productDetailRoute,
-        ProductPageResultHydrator $resultHydrator,
-        RequestCriteriaBuilder $requestCriteriaBuilder,
-        SalesChannelProductDefinition $productDefinition
-    )
-    {
-        $this->productRoute = $productDetailRoute;
-        $this->resultHydrator = $resultHydrator;
-        $this->requestCriteriaBuilder = $requestCriteriaBuilder;
-        $this->productDefinition = $productDefinition;
+        private AbstractProductDetailRoute $productRoute,
+        private ProductPageResultHydrator $resultHydrator,
+        private RequestCriteriaBuilder $requestCriteriaBuilder,
+        private SalesChannelProductDefinition $productDefinition
+    ) {
     }
 
     /**

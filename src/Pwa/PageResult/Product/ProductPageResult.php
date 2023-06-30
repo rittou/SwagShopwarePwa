@@ -9,27 +9,15 @@ use SwagShopwarePwa\Pwa\PageResult\AbstractPageResult;
 
 class ProductPageResult extends AbstractPageResult
 {
-    /**
-     * @var SalesChannelProductEntity
-     */
-    protected $product;
+    protected SalesChannelProductEntity $product;
 
-    /**
-     * @var PropertyGroupCollection
-     */
-    protected $configurator;
+    protected PropertyGroupCollection $configurator;
 
-    /**
-     * @return SalesChannelProductEntity
-     */
     public function getProduct(): SalesChannelProductEntity
     {
         return $this->product;
     }
 
-    /**
-     * @param SalesChannelProductEntity $product
-     */
     public function setProduct(SalesChannelProductEntity $product)
     {
         $this->product = $product;

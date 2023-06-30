@@ -4,10 +4,7 @@ namespace SwagShopwarePwa\Pwa\PageLoader\Context;
 
 class PageLoaderPreviewContext extends PageLoaderContext
 {
-    /**
-     * @var string
-     */
-    private $previewPageIdentifier;
+    private string $previewPageIdentifier;
 
     /**
      * @return string

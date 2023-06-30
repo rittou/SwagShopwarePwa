@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace SwagShopwarePwa\Pwa\PageResult;
 
@@ -15,26 +15,11 @@ use SwagShopwarePwa\Pwa\Controller\PageController;
 
 abstract class AbstractPageResultHydrator
 {
-    /**
-     * @var EntityRepository
-     */
-    private $seoUrlRepository;
-
-    /**
-     * @var Router
-     */
-    private $router;
-
-    /**
-     * @var CategoryBreadcrumbBuilder
-     */
-    private $categoryBreadcrumbBuilder;
-
-    public function __construct(Router $router, EntityRepository $seoUrlRepository, CategoryBreadcrumbBuilder $categoryBreadcrumbBuilder)
-    {
-        $this->router = $router;
-        $this->seoUrlRepository = $seoUrlRepository;
-        $this->categoryBreadcrumbBuilder = $categoryBreadcrumbBuilder;
+    public function __construct(
+        private Router $router,
+        private EntityRepository $seoUrlRepository,
+        private CategoryBreadcrumbBuilder $categoryBreadcrumbBuilder
+    ) {
     }
 
     protected function getBreadcrumbs(CategoryEntity $category, SalesChannelContext $context): array

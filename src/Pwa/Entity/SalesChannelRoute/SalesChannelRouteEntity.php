@@ -7,40 +7,19 @@ use Shopware\Core\Framework\Struct\Struct;
 
 class SalesChannelRouteEntity extends Struct
 {
-    /**
-     * @var string
-     */
-    protected $routeName;
+    protected string $routeName;
 
-    /**
-     * @var string
-     */
-    protected $pathInfo;
+    protected string $pathInfo;
 
-    /**
-     * @var string
-     */
-    protected $seoPathInfo;
+    protected string $seoPathInfo;
 
-    /**
-     * @var string
-     */
-    protected $isCanonical;
+    protected string $isCanonical;
 
-    /**
-     * @var string
-     */
-    protected $resource;
+    protected string $resource;
 
-    /**
-     * @var string
-     */
-    protected $resourceIdentifier;
+    protected string $resourceIdentifier;
 
-    /**
-     * @var string|null
-     */
-    protected $canonicalPathInfo;
+    protected ?string $canonicalPathInfo;
 
     /**
      * @return string

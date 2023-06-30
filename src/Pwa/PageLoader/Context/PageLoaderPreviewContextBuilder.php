@@ -9,14 +9,9 @@ class PageLoaderPreviewContextBuilder implements PageLoaderContextBuilderInterfa
 {
     public const PREVIEW_DELIMITER = '__preview';
 
-    /**
-     * @var PageLoaderContextBuilderInterface
-     */
-    private $coreBuilder;
-
-    public function __construct(PageLoaderContextBuilderInterface $pageLoaderContextBuilder)
-    {
-        $this->coreBuilder = $pageLoaderContextBuilder;
+    public function __construct(
+        private PageLoaderContextBuilderInterface $coreBuilder
+    ) {
     }
 
     /**
@@ -32,21 +27,17 @@ class PageLoaderPreviewContextBuilder implements PageLoaderContextBuilderInterfa
         $previewPageId = null;
         $path = $request->get('path');
 
-        if($path !== null)
-        {
+        if ($path) {
             $pathElements = explode('/' . self::PREVIEW_DELIMITER . '/', $path, 2);
-
-            if(count($pathElements) == 2) {
+            if (count($pathElements) === 2) {
                 $previewPageId = $pathElements[1];
                 $request->request->set('path', $pathElements[0]);
-
             }
         }
 
-        /** @var PageLoaderContext $pageLoaderContext */
         $pageLoaderContext = $this->coreBuilder->build($request, $context);
 
-        if($previewPageId) {
+        if ($previewPageId) {
             return $this->createPreviewContext($pageLoaderContext, $previewPageId);
         }
 

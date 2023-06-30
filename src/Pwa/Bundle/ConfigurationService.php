@@ -16,47 +16,15 @@ use SwagShopwarePwa\Pwa\Bundle\Helper\FormattingHelper;
 
 class ConfigurationService
 {
-    /**
-     * @var string
-     */
-    private $artifactPath = 'pwa-bundles.json';
-
-    /**
-     * @var Kernel
-     */
-    private $kernel;
-    /**
-     * @var EntityRepository
-     */
-    private $pluginRepository;
-
-    /**
-     * @var SystemConfigService
-     */
-    private $configService;
-
-    /**
-     * @var FormattingHelper
-     */
-    private $helper;
-
-    /**
-     * @var FilesystemOperator
-     */
-    private $fileSystem;
+    private string $artifactPath = 'pwa-bundles.json';
 
     public function __construct(
-        Kernel $kernel,
-        EntityRepository $pluginRepository,
-        SystemConfigService $configService,
-        FormattingHelper $helper,
-        FilesystemOperator $fileSystem
+        private Kernel $kernel,
+        private EntityRepository $pluginRepository,
+        private SystemConfigService $configService,
+        private FormattingHelper $helper,
+        private FilesystemOperator $fileSystem
     ) {
-        $this->kernel = $kernel;
-        $this->pluginRepository = $pluginRepository;
-        $this->configService = $configService;
-        $this->helper = $helper;
-        $this->fileSystem = $fileSystem;
     }
 
     /**
